@@ -1,1 +1,1 @@
-Sitemap: /sitemap.xml
+Sitemap: https://back2theprop.com/sitemap.xml
