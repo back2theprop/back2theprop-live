@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-<loc>https://back2theprop.com/blog/visualizing-data-with-t-SNE</loc>
+<loc>https://back2theprop.com/blog/A-guide-to-visualizing-data-with-tSNE</loc>
 <lastmod>2021-05-12T00:00:00+03:00</lastmod>
 </url>
 <url>
-<loc>https://back2theprop.com/blog/origins-of-the-autoencoder</loc>
+<loc>https://back2theprop.com/blog/Origins-of-the-autoencoder</loc>
 <lastmod>2021-05-13T00:00:00+03:00</lastmod>
 </url>
 <url>
-<loc>https://back2theprop.com/blog/autoencoder-in-pytorch</loc>
+<loc>https://back2theprop.com/blog/Building-an-auto-encoder-in-Pytorch</loc>
 <lastmod>2021-05-14T00:00:00+03:00</lastmod>
 </url>
 <url>
-<loc>https://back2theprop.com/blog/An-introduction-to-audio-data,-the-Fourier-transform-and-spectrograms-Copy</loc>
+<loc>https://back2theprop.com/blog/Audio-Data-Fourier-Transform-and-Spectrograms</loc>
 <lastmod>2021-05-15T00:00:00+03:00</lastmod>
 </url>
 <url>
-<loc>https://back2theprop.com/blog/Spectrograms-as-images-and-how-to-pre-process-them-Copy</loc>
+<loc>https://back2theprop.com/blog/A-guide-to-pre-processing-spectrograms</loc>
 <lastmod>2021-05-16T00:00:00+03:00</lastmod>
 </url>
 <url>
