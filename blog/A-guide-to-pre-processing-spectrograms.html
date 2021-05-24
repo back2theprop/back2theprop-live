@@ -601,21 +601,23 @@ function googleTranslateElementInit() {
 <p>Getting back to the main point of this post, which is pre-processing Spectrograms and treating them as images. If you’ve followed the trends of deep learning and sound synthesis in recent years, you’ve probably come across some models that utilize GANs for this purpose. One of them being SpecGAN, short for Spectrogram Generative Adversarial Networks. Which simply is a GAN that is capable of generating spectrogram representations of sound, the spectrogram being treated as a digital image.</p>
 
 <p>The first time I came across the paper, this sounded like a superb idea, why deal with data in the time domain if we already have strong models for image synthesis? However, this domain conversion usually comes with two caveats:</p>
-<ol>
+<ul>
   <li>How exactly do we treat a spectrogram as an Image?</li>
   <li>How do we get the actual audio from the Spectrogram?</li>
-</ol>
+</ul>
 
 <p>If you’re not familiar with what Spectrograms are, then I got you covered with this previous blog post of mine. For now we need not concern ourselves in depth with spectrogram inversion methods (if you would like to learn more details about them check this post), we’ll just assume that we have a ‘good-enough’ method for doing so.</p>
 
-<h2>The Nitty Gritty of Spectrogram Pre-rocessing</h2>
+<h3>The Nitty Gritty of Spectrogram Pre-rocessing</h3>
 <p>Spectrogram pre-processing can be split into several stages:</p>
 
-<ol>
-  <li>Processing the audio data itself before passing it through the STFT</li>
+<ul>
+  <li>
+    <p>Processing the audio data itself before passing it through the STFT</p>
+  </li>
   <li>The STFT parameters</li>
   <li>Processing the spectrogram</li>
-</ol>
+</ul>
 
 <h3>About Audio Data Normalization</h3>
 <p>Normalizing audio can be a step that is often disregarded as a primer in your pipeline. Making sure that your data samples are as clean as representative as possible is crucial for steps further down the line.</p>
@@ -635,10 +637,10 @@ function googleTranslateElementInit() {
 <div class="post-related">
       <div>Related Articles</div>
       <ul>
-        <li><a class="post-link" href="/blog/Audio-Data-Fourier-Transform-and-Spectrograms" title="">Audio Data, Fourier Transform and Spectrograms</a></li>
+        <li><a class="post-link" href="/blog/Building-an-auto-encoder-in-Pytorch" title="">Building an Autoencoder in Pytorch</a></li>
+<li><a class="post-link" href="/blog/Audio-Data-Fourier-Transform-and-Spectrograms" title="">Audio Data, Fourier Transform and Spectrograms</a></li>
 <li><a class="post-link" href="/blog/Origins-of-the-autoencoder" title="">Origins of the Autoencoder</a></li>
-<li><a class="post-link" href="/blog/Building-an-auto-encoder-in-Pytorch" title="">Building an Autoencoder in Pytorch</a></li>
-<li><a class="post-link" href="/blog/A-guide-to-pre-processing-spectrograms" title="">A guide to pre-processing Spectrograms</a></li>
+<li><a class="post-link" href="/blog/A-guide-to-visualizing-data-with-tSNE" title="">A guide to visualizing data with tSNE</a></li>
 </ul>
     </div>
 <div class="post-comments"></div></section>

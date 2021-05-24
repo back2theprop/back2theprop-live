@@ -12,8 +12,8 @@
 <meta property="og:title" content="Building an Autoencoder in Pytorch">
 <meta name="author" content="Ahmad">
 <meta property="og:locale" content="en">
-<meta name="description" content="In this blog post we’ll build an autoencoder in Pytorch from scratch, and have you encoding and decoding your first images! Hop over to google colab and open a blank notebook. To begin, we’ll want to install pytorch and torchvision, since we’ll rely on them for the components that make up our dataset. To install them into our colab notebook:">
-<meta property="og:description" content="In this blog post we’ll build an autoencoder in Pytorch from scratch, and have you encoding and decoding your first images! Hop over to google colab and open a blank notebook. To begin, we’ll want to install pytorch and torchvision, since we’ll rely on them for the components that make up our dataset. To install them into our colab notebook:">
+<meta name="description" content="Imports and Setup">
+<meta property="og:description" content="Imports and Setup">
 <link rel="canonical" href="https://back2theprop.com/blog/Building-an-auto-encoder-in-Pytorch">
 <meta property="og:url" content="https://back2theprop.com/blog/Building-an-auto-encoder-in-Pytorch">
 <meta property="og:type" content="article">
@@ -21,7 +21,7 @@
 <meta name="twitter:card" content="summary">
 <meta property="twitter:title" content="Building an Autoencoder in Pytorch">
 <script type="application/ld+json">
-{"@type":"BlogPosting","url":"https://back2theprop.com/blog/Building-an-auto-encoder-in-Pytorch","headline":"Building an Autoencoder in Pytorch","dateModified":"2021-05-14T00:00:00+03:00","datePublished":"2021-05-14T00:00:00+03:00","author":{"@type":"Person","name":"Ahmad"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://back2theprop.com/blog/Building-an-auto-encoder-in-Pytorch"},"description":"In this blog post we’ll build an autoencoder in Pytorch from scratch, and have you encoding and decoding your first images! Hop over to google colab and open a blank notebook. To begin, we’ll want to install pytorch and torchvision, since we’ll rely on them for the components that make up our dataset. To install them into our colab notebook:","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","url":"https://back2theprop.com/blog/Building-an-auto-encoder-in-Pytorch","headline":"Building an Autoencoder in Pytorch","dateModified":"2021-05-14T00:00:00+03:00","datePublished":"2021-05-14T00:00:00+03:00","author":{"@type":"Person","name":"Ahmad"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://back2theprop.com/blog/Building-an-auto-encoder-in-Pytorch"},"description":"Imports and Setup","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="shortcut icon" href="/favicon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -594,7 +594,9 @@ function googleTranslateElementInit() {
 
     <div class="post-content e-content" itemprop="articleBody">
 
-      <p>In this blog post we’ll build an autoencoder in Pytorch from scratch, and have you encoding and decoding your first images! Hop over to <a href="https://colab.research.google.com/notebooks/intro.ipynb#recent=true">google colab</a> and open a blank notebook. To begin, we’ll want to install pytorch and torchvision, since we’ll rely on them for the components that make up our dataset. To install them into our colab notebook:</p>
+      <h2 id="imports-and-setup">Imports and Setup</h2>
+
+<p>In this blog post we’ll build an autoencoder in Pytorch from scratch, and have you encoding and decoding your first images! Hop over to <a href="https://colab.research.google.com/notebooks/intro.ipynb#recent=true">google colab</a> and open a blank notebook. To begin, we’ll want to install pytorch and torchvision, since we’ll rely on them for the components that make up our dataset. To install them into our colab notebook:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">torch</span> <span class="n">torchvision</span>
 </code></pre></div></div>
@@ -604,11 +606,8 @@ function googleTranslateElementInit() {
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span><span class="p">,</span> <span class="n">torchvision</span>
 <span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span><span class="p">,</span> <span class="n">optim</span>
 </code></pre></div></div>
-<h1 id="ddd">DDD</h1>
-<h2 id="dddd">DDDD</h2>
-<h3 id="encoder-and-decoder">Encoder and Decoder</h3>
-<h4 id="ddddd">DDDdd</h4>
-<h5 id="ddddd-1">dddDD</h5>
+
+<h2 id="constructing-encoder-and-decoder">Constructing Encoder and Decoder</h2>
 
 <p>Creating the network is also relatively easy, we create two classes, one that represents the encoder and another that represents the decoder. These classes need to a have a very specific format and should always inherit the nn.Module base class. Inheriting from the nn.Module class will automatically give our class some useful and essential properties.</p>
 
@@ -642,7 +641,8 @@ function googleTranslateElementInit() {
         <span class="k">return</span> <span class="n">x</span>
 </code></pre></div></div>
 
-<h3 id="stringing-encoder-and-decoder-together">Stringing encoder and decoder together</h3>
+<h2 id="chaining-encoder-and-decoder-together">Chaining Encoder and Decoder Together</h2>
+
 <p>Now we have two separate nets that should ultimately comprise our entire pipeline, in this manner we need to chain them together. We can do this by creating a 3rd class, that also inherits nn.Module, and which holds two member variables, that are instances of the Encoder and Decoder that we just created. This showcases the amazing modularity of pytorch, which allows us to integrate one network as a part of another network. You can also see the forward function, which again as before will pass the input x through the encoder, pass it on to the decoder and then ultimately output it.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">AE</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
@@ -659,7 +659,7 @@ function googleTranslateElementInit() {
         <span class="k">return</span> <span class="n">x</span>
 </code></pre></div></div>
 
-<h3 id="training-setup">Training Setup</h3>
+<h2 id="training-setup">Training Setup</h2>
 <p>We’ve created and wired our network, now we still need to set up some stuff before we can begin training. Ideally we want to train on a GPU to accelerate this process, and since we’re on google colab, we can run our model on the provided GPU with following statements:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#  use gpu if available
@@ -681,7 +681,8 @@ function googleTranslateElementInit() {
 
 <p>The mean square error loss essentially compares the pixel values of the output to those of the input.</p>
 
-<h3 id="preparing-the-dataset">Preparing the Dataset</h3>
+<h2 id="preparing-the-dataset">Preparing the Dataset</h2>
+
 <p>To train our network we also still need some data. We’ll train our dataset on the good old MNIST dataset that consists of greyscale images of handwritten digits that are 28x28 in dimension. Downloading it is also straightforward,</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">transform</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">torchvision</span><span class="p">.</span><span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">()])</span>
 
@@ -702,8 +703,8 @@ function googleTranslateElementInit() {
     <span class="n">test_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span>
 <span class="p">)</span>
 </code></pre></div></div>
+<h2 id="the-training-loop">The training Loop</h2>
 
-<h3 id="the-training-loop">The training Loop</h3>
 <p>Now we’ve completed all the setup and can start training. The training loop is the most integral component of our code and we’ll go through it step by step. Firstly, we’ll create a main loop that will specify the number of epochs that we’ll train for. Every epoch our network will see the entire dataset, not all at once, but rather in small portions. The small portions are called batches. This is where the data-loaders, that we previously created, come into play. We create a loop statement that gets a batch of ‘features’ (input images), to pass to the auto encoder.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">epochs</span> <span class="o">=</span> <span class="mi">5</span>
@@ -790,7 +791,8 @@ function googleTranslateElementInit() {
 </span>    <span class="k">print</span><span class="p">(</span><span class="s">"epoch : {}/{}, loss = {:.6f}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span><span class="p">,</span> <span class="n">loss</span><span class="p">))</span>
 </code></pre></div></div>
 
-<h3 id="testing-the-model">Testing the model</h3>
+<h2 id="testing-the-model">Testing the model</h2>
+
 <p>Lastly, we also want to see how well our model performs qualitatively, we can do this by looking at some of the outputs that our model outputs and compare them with the original input. We’ll need to import the matplotlib library for that and use our test_loader, which holds data that was not included in the training dataset. This will give us a good idea how well our model can generalize to new data:</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="k">for</span> <span class="n">batch_features</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">test_loader</span><span class="p">:</span>
@@ -820,10 +822,10 @@ function googleTranslateElementInit() {
 <div class="post-related">
       <div>Related Articles</div>
       <ul>
-        <li><a class="post-link" href="/blog/Origins-of-the-autoencoder" title="Audio Data, Fourier Transform and Spectrograms">Origins of the Autoencoder</a></li>
-<li><a class="post-link" href="/blog/A-guide-to-visualizing-data-with-tSNE" title="Audio Data, Fourier Transform and Spectrograms">A guide to visualizing data with tSNE</a></li>
+        <li><a class="post-link" href="/blog/A-guide-to-pre-processing-spectrograms" title="Audio Data, Fourier Transform and Spectrograms">A guide to pre-processing Spectrograms</a></li>
+<li><a class="post-link" href="/blog/Origins-of-the-autoencoder" title="Audio Data, Fourier Transform and Spectrograms">Origins of the Autoencoder</a></li>
+<li><a class="post-link" href="/blog/Building-an-auto-encoder-in-Pytorch" title="Audio Data, Fourier Transform and Spectrograms">Building an Autoencoder in Pytorch</a></li>
 <li><a class="post-link" href="/blog/Audio-Data-Fourier-Transform-and-Spectrograms" title="Audio Data, Fourier Transform and Spectrograms">Audio Data, Fourier Transform and Spectrograms</a></li>
-<li><a class="post-link" href="/blog/A-guide-to-pre-processing-spectrograms" title="Audio Data, Fourier Transform and Spectrograms">A guide to pre-processing Spectrograms</a></li>
 </ul>
     </div>
 <div class="post-comments"></div></section>
