@@ -401,7 +401,7 @@ html[data-theme="dark"] .post-menu .post-menu-content ul a { color: #bbb; }
 
 html[data-theme="dark"] .post-menu .post-menu-content ul a:hover { color: #fff !important; }
 
-.theme-toggle { position: relative; width: 96.8px; margin-top: 10px; margin-right: 180px; margin-left: auto; transition: 0.3s cubic-bezier(0.4, 0.03, 0, 1); /* Toggle */ }
+.theme-toggle { position: relative; width: 63.8px; margin-top: 10px; margin-right: 180px; margin-left: auto; transition: 0.3s cubic-bezier(0.4, 0.03, 0, 1); /* Toggle */ }
 
 .theme-toggle label, .theme-toggle .toggle { border-radius: 100px; }
 
