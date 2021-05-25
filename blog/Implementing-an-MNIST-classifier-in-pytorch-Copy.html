@@ -12,8 +12,8 @@
 <meta property="og:title" content="Implementing an MNIST classifier in Pytorch">
 <meta name="author" content="Ahmad">
 <meta property="og:locale" content="en">
-<meta name="description" content="!pip install torch torchvision">
-<meta property="og:description" content="!pip install torch torchvision">
+<meta name="description" content="In this tutorial we’ll have a look at creating a simple classifier for the MNIST dataset. We’ll try to do this in the least amount of code possible and explain every step in detail along the way.">
+<meta property="og:description" content="In this tutorial we’ll have a look at creating a simple classifier for the MNIST dataset. We’ll try to do this in the least amount of code possible and explain every step in detail along the way.">
 <link rel="canonical" href="https://back2theprop.com/blog/Implementing-an-MNIST-classifier-in-pytorch-Copy">
 <meta property="og:url" content="https://back2theprop.com/blog/Implementing-an-MNIST-classifier-in-pytorch-Copy">
 <meta property="og:type" content="article">
@@ -21,7 +21,7 @@
 <meta name="twitter:card" content="summary">
 <meta property="twitter:title" content="Implementing an MNIST classifier in Pytorch">
 <script type="application/ld+json">
-{"@type":"BlogPosting","url":"https://back2theprop.com/blog/Implementing-an-MNIST-classifier-in-pytorch-Copy","headline":"Implementing an MNIST classifier in Pytorch","dateModified":"2021-05-24T00:00:00+03:00","datePublished":"2021-05-24T00:00:00+03:00","author":{"@type":"Person","name":"Ahmad"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://back2theprop.com/blog/Implementing-an-MNIST-classifier-in-pytorch-Copy"},"description":"!pip install torch torchvision","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","url":"https://back2theprop.com/blog/Implementing-an-MNIST-classifier-in-pytorch-Copy","headline":"Implementing an MNIST classifier in Pytorch","dateModified":"2021-05-24T00:00:00+03:00","datePublished":"2021-05-24T00:00:00+03:00","author":{"@type":"Person","name":"Ahmad"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://back2theprop.com/blog/Implementing-an-MNIST-classifier-in-pytorch-Copy"},"description":"In this tutorial we’ll have a look at creating a simple classifier for the MNIST dataset. We’ll try to do this in the least amount of code possible and explain every step in detail along the way.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="shortcut icon" href="/favicon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -576,7 +576,7 @@ function googleTranslateElementInit() {
 
 
 
-    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 5 mins</span>
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 7 mins</span>
   </p>
 <div class="post-tags">
 <a class="post-tag" href="/tags.html#MNIST">#MNIST</a><a class="post-tag" href="/tags.html#classification">#classification</a><a class="post-tag" href="/tags.html#supervised">#supervised</a><a class="post-tag" href="/tags.html#pytorch">#pytorch</a>
@@ -585,7 +585,14 @@ function googleTranslateElementInit() {
 
     <div class="post-content e-content" itemprop="articleBody">
 
-      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">torch</span> <span class="n">torchvision</span>
+      <p>In this tutorial we’ll have a look at creating a simple classifier for the MNIST dataset. We’ll try to do this in the least amount of code possible and explain every step in detail along the way.</p>
+
+<p>If you found yourself here and want to learn more about the MNIST dataset, or what classification models are, you can read up on them here.</p>
+
+<h3 id="import-and-setup">Import and Setup</h3>
+
+<p>It’s time to hop over to google colab, and to create a new notebook and select a gpu instance as runtime. Then we have to install and import torch and torchvision, since we’ll be relying on them for most of the code we’ll write:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">torch</span> <span class="n">torchvision</span>
 </code></pre></div></div>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span><span class="p">,</span> <span class="n">torchvision</span>
@@ -594,7 +601,7 @@ function googleTranslateElementInit() {
 
 <h3 id="model-architecture">Model Architecture</h3>
 
-<p>The model for this task is very simple, and merely consists of one fully connected layer:</p>
+<p>The model for this task is very simple, and can merely consists of one fully connected layer:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Classifier</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -605,8 +612,9 @@ function googleTranslateElementInit() {
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </code></pre></div></div>
+<p>Since the MNIST dataset is relatively simple, a single layer is sufficient for a ~90% accuracy. If you want to squeeze out a bit more you can add an additional layer. If you’re not familiar with this syntax it might be best to check out our article on getting started with Pytorch.</p>
 
-<p>Next, we’ll want to instantiate our model and send it over to the gpu, this can be done with .to() function in pytorch:</p>
+<p>Next we’ll want to do, is instantiating our model and sending it over to the gpu, this can be done with the .device() and .to() function in pytorch:</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#  use gpu if available
 </span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span><span class="p">)</span>
 
@@ -614,7 +622,7 @@ function googleTranslateElementInit() {
 </span><span class="n">model</span> <span class="o">=</span> <span class="n">Classifier</span><span class="p">().</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p>We also require an optimizer and a criterion to measure how well our model performed:</p>
+<p>We also require an optimizer and a criterion to train our model. We’ll go with the standard Adam optimizer and the Cross Entropy Loss which is the go to loss function when solving multi-class classification tasks. For an in depth explanation of this loss function I recommend <a href="https://machinelearningmastery.com/cross-entropy-for-machine-learning/">this resource.</a></p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># create an optimizer object
 # Adam optimizer with learning rate 1e-3
 </span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
@@ -623,7 +631,7 @@ function googleTranslateElementInit() {
 </span><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
 </code></pre></div></div>
 <h3 id="data-and-dataloaders">Data and Dataloaders</h3>
-<p>Lastly we need to get our data, which we can do conveniently with the torchvision module:</p>
+<p>Lastly we need to get the training and testing data into our notebook, which we can do conveniently with the torchvision module:</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">transform</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">torchvision</span><span class="p">.</span><span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">()])</span>
 
 <span class="n">train_dataset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">datasets</span><span class="p">.</span><span class="n">MNIST</span><span class="p">(</span>
@@ -635,11 +643,10 @@ function googleTranslateElementInit() {
 <span class="p">)</span>
 </code></pre></div></div>
 
-<p>And create dataloaders to feed data to our models:</p>
+<p>And we also need to create dataloaders to feed the data to our models:</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span>
     <span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">pin_memory</span><span class="o">=</span><span class="bp">True</span>
 <span class="p">)</span>
-
 
 <span class="n">test_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span>
     <span class="n">test_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span>
@@ -648,7 +655,7 @@ function googleTranslateElementInit() {
 
 <h3 id="training-loop">Training Loop</h3>
 
-<p>Now we can start training:</p>
+<p>Now we’ve done all the necessary setup and can put together the heart piece of our code, the training loop! We create a nested loop, one that iterates through the epochs, and an inner loop that iterates through the batches of the dataloader, to feed them one after another to our model. We also need to do the call the usual pytorch functions that reset the gradients every training loop, and perform a forward pass and backpropagation. The training loop looks like this:</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">epochs</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
     <span class="n">loss</span> <span class="o">=</span> <span class="mi">0</span>
@@ -721,9 +728,9 @@ function googleTranslateElementInit() {
 <div class="post-related">
       <div>Related Articles</div>
       <ul>
-        <li><a class="post-link" href="/blog/Audio-Data-Fourier-Transform-and-Spectrograms" title="Implementing a convolutional classifier in pytorch for CIFAR10">Audio Data, Fourier Transform and Spectrograms</a></li>
+        <li><a class="post-link" href="/blog/Origins-of-the-autoencoder" title="Implementing a convolutional classifier in pytorch for CIFAR10">Origins of the Autoencoder</a></li>
 <li><a class="post-link" href="/blog/A-guide-to-visualizing-data-with-tSNE" title="Implementing a convolutional classifier in pytorch for CIFAR10">A guide to visualizing data with tSNE</a></li>
-<li><a class="post-link" href="/blog/Implementing-a-Convolutional-classifier-in-pytorch-for-CIFAR10-Copy" title="Implementing a convolutional classifier in pytorch for CIFAR10">Implementing a convolutional classifier in pytorch for CIFAR10</a></li>
+<li><a class="post-link" href="/blog/A-guide-to-pre-processing-spectrograms" title="Implementing a convolutional classifier in pytorch for CIFAR10">A guide to pre-processing Spectrograms</a></li>
 <li><a class="post-link" href="/blog/Implementing-an-auto-encoder-in-Pytorch" title="Implementing a convolutional classifier in pytorch for CIFAR10">Implementing an Autoencoder in Pytorch</a></li>
 </ul>
     </div>

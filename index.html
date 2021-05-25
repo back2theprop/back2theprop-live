@@ -701,27 +701,14 @@ We could approach this dataset in a similar manner to how we solved the MNIST c.
       </h2>
       <div class="post-meta">
         <span class="post-date"><i class="fa fa-calendar"></i> May 24, 2021</span>
-        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 5 mins</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 7 mins</span>
       </div>
       <p class="post-excerpt">
-        !pip install torch torchvision
+        In this tutorial we’ll have a look at creating a simple classifier for the MNIST dataset. We’ll try to do this in the least amount of code possible and explain every step in detail along the way.
 
+If you found yourself here and want to learn more about the MNIST dataset, or what classification models are, you can read up on them here.
 
-import torch, torchvision
-from torch import nn, optim
-
-
-Model Architecture
-
-The model for this task is very simple, and merely consists of one fully connected layer:
-
-class Classifier(nn.Module):
-    def __init__(self, **kwargs):
-        super().__init__()
-
-        self.layer = nn.Linear(784, 10)
-
-    def forward...
+Import an...
       </p>
       <div class="post-tags">
 <a class="post-tag" href="/tags.html#MNIST">#MNIST</a><a class="post-tag" href="/tags.html#classification">#classification</a><a class="post-tag" href="/tags.html#supervised">#supervised</a><a class="post-tag" href="/tags.html#pytorch">#pytorch</a>
