@@ -417,7 +417,7 @@ function googleTranslateElementInit() {
 
 
 
-    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 3 mins</span>
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 7 mins</span>
   </p>
 <div class="post-tags">
 <a class="post-tag" href="/tags.html#audio,">#audio,</a><a class="post-tag" href="/tags.html#fourier,">#fourier,</a><a class="post-tag" href="/tags.html#spectrograms">#spectrograms</a>
@@ -627,20 +627,70 @@ function googleTranslateElementInit() {
 <h3>About STFT parameter Selection</h3>
 <p>The main STFT parameters are usually the window length, the hop size and the signal length. For our purposes we will be dealing with short audio sampples, and it makes the most sense to select a specific sample length.</p>
 
+<h3 id="code">Code</h3>
+
+<p>We need to find the global maximum and global minimum for normalizing our spectrograms.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">calc_global_norm_stats</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">,</span> <span class="n">hop_length</span><span class="p">,</span> <span class="n">n_mels</span><span class="p">):</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">)</span>
+    <span class="nb">min</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="nb">max</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">,</span> <span class="nb">file</span><span class="p">))</span>
+
+        <span class="n">mels</span> <span class="o">=</span> <span class="n">librosa</span><span class="p">.</span><span class="n">feature</span><span class="p">.</span><span class="n">melspectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_mels</span><span class="o">=</span><span class="n">n_mels</span><span class="p">,</span>
+                                              <span class="n">n_fft</span><span class="o">=</span><span class="n">hop_length</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
+        <span class="n">mels</span> <span class="o">=</span> <span class="n">numpy</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">mels</span> <span class="o">+</span> <span class="mf">1e-9</span><span class="p">)</span>  <span class="c1"># add small number to avoid log(0)
+</span>
+        <span class="nb">max</span> <span class="o">+=</span> <span class="n">mels</span><span class="p">.</span><span class="nb">max</span><span class="p">()</span>
+        <span class="nb">min</span> <span class="o">+=</span> <span class="n">mels</span><span class="p">.</span><span class="nb">min</span><span class="p">()</span>
+
+    <span class="nb">min</span> <span class="o">=</span> <span class="nb">min</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+    <span class="nb">max</span> <span class="o">=</span> <span class="nb">max</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span>
+</code></pre></div></div>
+
+<p>Scaling the spectrogram depnding on the minimum and maximum:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">scale_minmax</span><span class="p">(</span><span class="n">X</span><span class="p">,</span>  <span class="n">mi</span><span class="p">,</span> <span class="n">ma</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="n">X_std</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="n">mi</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">ma</span> <span class="o">-</span> <span class="n">mi</span><span class="p">)</span>
+    <span class="n">X_scaled</span> <span class="o">=</span> <span class="n">X_std</span> <span class="o">*</span> <span class="p">(</span><span class="nb">max</span> <span class="o">-</span> <span class="nb">min</span><span class="p">)</span> <span class="o">+</span> <span class="nb">min</span>
+    <span class="k">return</span> <span class="n">X_scaled</span>
+
+<span class="k">def</span> <span class="nf">inverse_scale_minmax</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="n">ma</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="nb">min</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nb">max</span> <span class="o">+</span> <span class="nb">min</span><span class="p">)</span>
+    <span class="n">X_std</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span> <span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">ma</span> <span class="o">-</span> <span class="n">mi</span><span class="p">)</span> <span class="o">+</span> <span class="n">mi</span>
+    <span class="k">return</span> <span class="n">X_std</span>
+</code></pre></div></div>
+
+<p>Creating an image from the spectrogram:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">spectrogram_image</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="p">,</span> <span class="n">n_mels</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="n">ma</span><span class="p">):</span>
+    <span class="c1"># use log-melspectrogram
+</span>    <span class="n">mels</span> <span class="o">=</span> <span class="n">librosa</span><span class="p">.</span><span class="n">feature</span><span class="p">.</span><span class="n">melspectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_mels</span><span class="o">=</span><span class="n">n_mels</span><span class="p">,</span>
+                                          <span class="n">n_fft</span><span class="o">=</span><span class="n">hop_length</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
+    <span class="n">mels</span> <span class="o">=</span> <span class="n">numpy</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">mels</span> <span class="o">+</span> <span class="mf">1e-9</span><span class="p">)</span>  <span class="c1"># add small number to avoid log(0)
+</span>
+    <span class="c1"># min-max scale to fit inside 8-bit range
+</span>    <span class="n">img</span> <span class="o">=</span> <span class="n">scale_minmax</span><span class="p">(</span><span class="n">mels</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="n">ma</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="p">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">numpy</span><span class="p">.</span><span class="n">flip</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># put low frequencies at the bottom in image
+</span>    <span class="n">img</span> <span class="o">=</span> <span class="mi">255</span> <span class="o">-</span> <span class="n">img</span>  <span class="c1"># invert. make black==more energy
+</span>    <span class="c1"># save as PNG
+</span>    <span class="k">return</span> <span class="n">img</span>
+</code></pre></div></div>
+
 
     </div>
 
 </article>
 <div class="post-nav">
-<a class="previous" href="/blog/Audio-Data-Fourier-Transform-and-Spectrograms" title="Audio Data, Fourier Transform and Spectrograms">Audio Data, Fourier Transform and Spectrograms...</a><span></span>
+<a class="previous" href="/blog/Audio-Data-Fourier-Transform-and-Spectrograms" title="Audio Data, Fourier Transform and Spectrograms">Audio Data, Fourier Transform and Spectrograms...</a><a class="next" href="/blog/Implementing-an-MNIST-classifier-in-pytorch-Copy" title="Implementing an MNIST classifier in Pytorch">Implementing an MNIST classifier in Pytorch...</a>
 </div>
 <div class="post-related">
       <div>Related Articles</div>
       <ul>
-        <li><a class="post-link" href="/blog/A-guide-to-visualizing-data-with-tSNE" title="">A guide to visualizing data with tSNE</a></li>
-<li><a class="post-link" href="/blog/Audio-Data-Fourier-Transform-and-Spectrograms" title="">Audio Data, Fourier Transform and Spectrograms</a></li>
-<li><a class="post-link" href="/blog/A-guide-to-pre-processing-spectrograms" title="">A guide to pre-processing Spectrograms</a></li>
-<li><a class="post-link" href="/blog/Building-an-auto-encoder-in-Pytorch" title="">Building an Autoencoder in Pytorch</a></li>
+        <li><a class="post-link" href="/blog/A-guide-to-pre-processing-spectrograms" title="Implementing an MNIST classifier in Pytorch">A guide to pre-processing Spectrograms</a></li>
+<li><a class="post-link" href="/blog/Origins-of-the-autoencoder" title="Implementing an MNIST classifier in Pytorch">Origins of the Autoencoder</a></li>
+<li><a class="post-link" href="/blog/Implementing-an-auto-encoder-in-Pytorch" title="Implementing an MNIST classifier in Pytorch">Implementing an Autoencoder in Pytorch</a></li>
+<li><a class="post-link" href="/blog/A-guide-to-visualizing-data-with-tSNE" title="Implementing an MNIST classifier in Pytorch">A guide to visualizing data with tSNE</a></li>
 </ul>
     </div>
 <div class="post-comments"></div></section>

@@ -611,13 +611,195 @@ function googleTranslateElementInit() {
 
 
       <h2 class="post-title">
+<a class="post-link" href="/blog/Implementing-a-Convolutional-classifier-in-pytorch-for-CIFAR10-Copy">
+          Implementing a convolutional classifier in pytorch for CIFAR10
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> May 25, 2021</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 4 mins</span>
+      </div>
+      <p class="post-excerpt">
+        After completing your first Machine Learning ‘Hello World!’ tutorial, that probably consists of creating a classifier for the MNIST dataset, you’ll probably wonder how to apply a classifier to color images. This is the purpose of this tutorial.
+
+Fully Connected Model
+We could approach this dataset in a similar manner to how we solved the MNIST c...
+      </p>
+      <div class="post-tags">
+<a class="post-tag" href="/tags.html#CIFAR10">#CIFAR10</a><a class="post-tag" href="/tags.html#classification">#classification</a><a class="post-tag" href="/tags.html#supervised">#supervised</a><a class="post-tag" href="/tags.html#pytorch">#pytorch</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <h2 class="post-title">
+<a class="post-link" href="/blog/Implementing-an-MNIST-classifier-in-pytorch-Copy">
+          Implementing an MNIST classifier in Pytorch
+        </a>
+      </h2>
+      <div class="post-meta">
+        <span class="post-date"><i class="fa fa-calendar"></i> May 24, 2021</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 5 mins</span>
+      </div>
+      <p class="post-excerpt">
+        !pip install torch torchvision
+
+
+import torch, torchvision
+from torch import nn, optim
+
+
+Model Architecture
+
+The model for this task is very simple, and merely consists of one fully connected layer:
+
+class Classifier(nn.Module):
+    def __init__(self, **kwargs):
+        super().__init__()
+
+        self.layer = nn.Linear(784, 10)
+
+    def forward...
+      </p>
+      <div class="post-tags">
+<a class="post-tag" href="/tags.html#MNIST">#MNIST</a><a class="post-tag" href="/tags.html#classification">#classification</a><a class="post-tag" href="/tags.html#supervised">#supervised</a><a class="post-tag" href="/tags.html#pytorch">#pytorch</a>
+</div>
+    </li>
+<li>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <h2 class="post-title">
 <a class="post-link" href="/blog/A-guide-to-pre-processing-spectrograms">
           A guide to pre-processing Spectrograms
         </a>
       </h2>
       <div class="post-meta">
         <span class="post-date"><i class="fa fa-calendar"></i> May 16, 2021</span>
-        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 3 mins</span>
+        <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 7 mins</span>
       </div>
       <p class="post-excerpt">
         There are a lot of things that I wish I would have known when I dove head first into my Masters, and as silly as it sounds, one of them being how to pre-process your data correctly. Machine Learning models are only as good as the data that you feed them, and if you feed it garbage you’re very likely to end up with garbage outputs. Which is somet...
@@ -701,10 +883,10 @@ function googleTranslateElementInit() {
         <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 17 mins</span>
       </div>
       <p class="post-excerpt">
-        Audio data can be represented in many different ways, some more useful than others for different machine learning and deep learning applications. The most famous being the Spectrogram, which illustrates the frequency components of a specific signal. Spectrogram representations, in combination with modern deep learning models tailored towards ima...
+        Audio data can be represented in many different ways. One of the most useful ones being the Spectrogram, which has found it’s way into many real world applications such as signal processing and the analysis thereof. Recent studies show that combining modern deep learning models tailored towards image classification, with spectrogram representati...
       </p>
       <div class="post-tags">
-<a class="post-tag" href="/tags.html#audio,">#audio,</a><a class="post-tag" href="/tags.html#FFT,">#FFT,</a><a class="post-tag" href="/tags.html#spectrogram">#spectrogram</a>
+<a class="post-tag" href="/tags.html#audio">#audio</a><a class="post-tag" href="/tags.html#FFT">#FFT</a><a class="post-tag" href="/tags.html#spectrogram">#spectrogram</a>
 </div>
     </li>
 <li>
@@ -773,8 +955,8 @@ function googleTranslateElementInit() {
 
 
       <h2 class="post-title">
-<a class="post-link" href="/blog/Building-an-auto-encoder-in-Pytorch">
-          Building an Autoencoder in Pytorch
+<a class="post-link" href="/blog/Implementing-an-auto-encoder-in-Pytorch">
+          Implementing an Autoencoder in Pytorch
         </a>
       </h2>
       <div class="post-meta">
@@ -990,14 +1172,26 @@ After dabbling for a while in machine learning, and building your first models y
   <ul>
     <li>
       <a href="/index.html">
-        All<span>5</span>
+        All<span>7</span>
       </a>
     </li>
 
     
       <li>
+        <a href="/categories.html#h-CIFAR10">
+          CIFAR10 <span>1</span>
+        </a>
+      </li>
+    
+      <li>
         <a href="/categories.html#h-FFT">
           FFT <span>2</span>
+        </a>
+      </li>
+    
+      <li>
+        <a href="/categories.html#h-MNIST">
+          MNIST <span>1</span>
         </a>
       </li>
     
@@ -1010,6 +1204,12 @@ After dabbling for a while in machine learning, and building your first models y
       <li>
         <a href="/categories.html#h-autoencoder">
           autoencoder <span>2</span>
+        </a>
+      </li>
+    
+      <li>
+        <a href="/categories.html#h-classification">
+          classification <span>2</span>
         </a>
       </li>
     
@@ -1038,6 +1238,12 @@ After dabbling for a while in machine learning, and building your first models y
       </li>
     
       <li>
+        <a href="/categories.html#h-pytorch">
+          pytorch <span>2</span>
+        </a>
+      </li>
+    
+      <li>
         <a href="/categories.html#h-spectrograms">
           spectrograms <span>2</span>
         </a>
@@ -1045,7 +1251,7 @@ After dabbling for a while in machine learning, and building your first models y
     
       <li>
         <a href="/categories.html#h-supervised">
-          supervised <span>1</span>
+          supervised <span>3</span>
         </a>
       </li>
     
